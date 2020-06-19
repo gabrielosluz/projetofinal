@@ -111,25 +111,6 @@ print(output)
 '''
 ```
 
-# Inference C++
-
-## Pretrained and converted bert-base model download from [here](https://1drv.ms/u/s!Auc3VRul9wo5hgkJjtxZ8FAQGuj2?e=wffJCT)
-### Download libtorch from [here](https://download.pytorch.org/libtorch/cpu/libtorch-shared-with-deps-1.2.0.zip)
-
-- install `cmake`, tested with `cmake` version `3.10.2`
-- unzip downloaded model and `libtorch` in `BERT-NER`
-- Compile C++ App
-  ```bash
-    cd cpp-app/
-    cmake -DCMAKE_PREFIX_PATH=../libtorch
-   ```
-    ![cmake output image](/img/cmake.png)
-    ```bash
-    make
-    ```
-    ![make output image](/img/make.png)
-
-
 - Runing APP
   ```bash
      ./app ../base
@@ -182,9 +163,6 @@ Output
 ![curl output image](/img/curl.png)
 #### Postman
 ![postman output image](/img/postman.png)
-
-### C++ unicode support 
-- http://github.com/ufal/unilib
 
 ### Tensorflow version
 
