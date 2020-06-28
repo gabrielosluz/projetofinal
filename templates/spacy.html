@@ -72,17 +72,16 @@
 <br/>
 <br/>
 <div class="container" >
-	<form method="POST" action="{{ url_for('extract')}}">
-        <button type="submit" class="btn btn-info"><i class="fa fa-database"></i> BERT</button>
-	</form>
-    <form method="POST" action="{{ url_for('spacy')}}">
-        <button type="submit" class="btn btn-info"><i class="fa fa-database"></i> SPACY</button>
+
+	<form action="/spacy" method="POST">
+		<textarea rows="5" cols="5" required="true" name="rawtext" class="form-control">
+		</textarea>
+		<button type="reset" class="btn btn-primary"><i class="fa fa-eraser"></i> Clear</button>
+        <button type="submit" class="btn btn-info"><i class="fa fa-database"></i> Submit</button>
 	</form>
 </div>
-<div class="container" >
 
 
-</div>
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->

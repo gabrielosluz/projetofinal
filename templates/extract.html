@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>DisplaCify App</title>
+	<title>TCC Gabriel Luz</title>
 	<meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +10,7 @@
 <style type="text/css">
 	.main-section{
 	margin:0 auto;
-	padding: 20px;
+	padding: 10px;
 	margin-top: 100px;
 	background-color: #fff;
 	box-shadow: 0px 0px 20px #c1c1c1;
@@ -37,25 +37,10 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" href="/">DisplaCify App</a>
+  <a class="navbar-brand" href="/">TCC Gabriel Luz</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
-  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link" href="/previewer">Previewer</a>
-      </li>
-       <li class="nav-item">
-        <a class="nav-link" href="#">About</a>
-      </li>
-
-
-    </ul>
 
   </div>
 </nav>
@@ -64,25 +49,44 @@
 
 <div class="jumbotron" style="background:#673AB7;color:#fff">
     <div class="container">
-      <h2 class="display-3">Displaying NER in Flask </h2>
-      <p>Using Spacy's Named Entity Recognition</p>
+      <h2 class="display-3">Reconhecimento de Entidades Nomeadas </h2>
+      <p>Webapp para a tarefa de NER usando como backend o Google BERT</p>
       <p><a class="btn btn-success waves-effect btn-lg" href="/" role="button">Refresh &raquo;</a></p>
     </div>
   </div>
 <br/>
 <br/>
 <div class="container" >
-	<form method="POST" action="{{ url_for('extract')}}">
-        <button type="submit" class="btn btn-info"><i class="fa fa-database"></i> BERT</button>
-	</form>
-    <form method="POST" action="{{ url_for('spacy')}}">
-        <button type="submit" class="btn btn-info"><i class="fa fa-database"></i> SPACY</button>
+
+	<form action="/extract" method="POST" id="form">
+		<textarea rows="5" cols="5" required="true" name="rawtext" id="rawtext" class="form-control">
+		</textarea>
+    <button type="reset" class="btn btn-primary"><i class="fa fa-eraser"></i> Clear</button>
+    <button type = "button" onclick="sendRequest()" class="btn btn-info"><i class="fa fa-database"></i> Submit</button>
 	</form>
 </div>
-<div class="container" >
 
+<br/>
+<br/>
+
+<div class="container">
+  
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">Confidence</th>
+        <th scope="col">Tag</th>
+        <th scope="col">Word</th>
+      </tr>
+    </thead>
+    <tbody id="table-body">
+     
+    </tbody>
+  </table>
 
 </div>
+
+
 <!-- JQuery -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- Bootstrap tooltips -->
@@ -91,10 +95,52 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.3/js/mdb.min.js"></script>
-
-<script src="{{ url_for('static', filename='js/main.js')}}"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript">
-	$('.file_upload').file_upload();
+
+  function sendRequest() {
+ 
+    let rawText = document.querySelector("#rawtext");
+    let form = `rawtext=${rawtext.value}`;
+    console.log(form)
+    axios.post('http://localhost:5000/extract', form)
+    .then(function (response) {
+      clearTable();
+      response.data.forEach(entidade => {
+        criaObjetoNoFrontEnd(entidade);
+      })
+    })
+    .catch(function (error) {
+      console.log(error);
+    });  
+ 
+  }
+
+  function clearTable() {
+    let tableBody = document.querySelector('#table-body');
+    tableBody.innerHTML = '';
+  }
+
+  function criaObjetoNoFrontEnd(entidade) {
+  let tableBody = document.querySelector('#table-body');
+
+  
+
+   var trRow = document.createElement('tr');
+   var tdConfidence = document.createElement('td');
+   var tdTag = document.createElement('td');
+   var tdWord = document.createElement('td');
+  
+   tdConfidence.innerHTML = entidade.confidence;
+   tdTag.innerHTML = entidade.tag;
+   tdWord.innerHTML = entidade.word;
+  
+   trRow.appendChild(tdConfidence);
+   trRow.appendChild(tdTag);
+   trRow.appendChild(tdWord);
+
+   tableBody.appendChild(trRow);
+}
 </script>
 </body>
 </html>
