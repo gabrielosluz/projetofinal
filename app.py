@@ -27,6 +27,9 @@ CORS(app)
 def index():
 	return render_template('index.html')
 
+@app.route('/redirect_extract',methods=["GET","POST"])
+def redirect_extract():
+    return render_template('extract.html')
 
 @app.route('/extract',methods=["GET","POST"])
 def extract():
@@ -42,6 +45,10 @@ def extract():
 		return  output
 	#else:
 	#	return render_template('extract.html')
+
+@app.route('/redirect_spacy',methods=["GET","POST"])
+def redirect_spacy():
+    return render_template('spacy.html')
 
 @app.route('/spacy',methods=["GET","POST"])
 def spacy():
