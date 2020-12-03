@@ -12,6 +12,10 @@ from spacy import displacy
 import os
 import json
 
+#para deploy em cloud
+#import nltk
+#nltk.download('punkt')
+
 HTML_WRAPPER = """<div style="overflow-x: auto; border: 1px solid #e6e9ef; border-radius: 0.25rem; padding: 1rem">{}</div>"""
 model = Ner("out_base/")
 

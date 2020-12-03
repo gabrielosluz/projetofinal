@@ -10,7 +10,9 @@ import torch.nn.functional as F
 from nltk import word_tokenize
 from pytorch_transformers import (BertConfig, BertForTokenClassification,
                                   BertTokenizer)
-
+#para deploy em cloud
+#import nltk
+#nltk.download('punkt')
 
 class BertNer(BertForTokenClassification):
 
